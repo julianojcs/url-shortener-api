@@ -1,0 +1,40 @@
+GET http://localhost:3000/
+
+###
+GET http://localhost:3000/patients
+
+###
+GET http://localhost:3000/users
+
+###
+GET http://localhost:3000/routes
+
+###
+POST http://localhost:3000/route
+Content-Type: application/json
+
+{
+  "title": "Quarta Rota", 
+  "startPosition": { "lat": -23.7729, "lng": -46.4543 },
+  "endPosition": { "lat": -23.7669, "lng": -46.4776 }
+}
+
+###
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "name": "juliano costa",
+  "email": "juliano@gmail.com",
+  "phone": "27981330708"
+}
+
+###
+POST http://localhost:3000/patient
+Content-Type: application/json
+
+{
+  "name": "ryani antonio",
+  "email": "ryani@gmail.com",
+  "phone": "(27)99994-6541"
+}
