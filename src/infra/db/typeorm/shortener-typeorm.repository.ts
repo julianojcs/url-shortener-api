@@ -1,7 +1,6 @@
 import { Shortener } from "../../../domain/shortener.entity";
 import { Repository, Raw } from "typeorm";
-import { ShortenerRepositoryInterface } from "../../../domain/shortener.repository";
-import { format, toDate } from 'date-fns';
+import { ShortenerRepositoryInterface } from '../../../domain/shortener.repository';
 
 export class ShortenerTypeOrmRepository
   implements ShortenerRepositoryInterface

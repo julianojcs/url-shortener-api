@@ -74,12 +74,9 @@ describe('ShortenerTypeOrmRepository Tests', () => {
     }
     const date = new Date();
     const shortenerList = await repository.findAllByDate(date);
-    // console.log(typeof shortenerList);
     expect(shortenerList).toHaveLength(3);
     expect(shortenerList).toHaveLength(shorteners.length);
     expect(shortenerList).toHaveLength(shortenerList.length);
-    console.log(typeof shortenerList[0].createdAt);
-    console.log(typeof shorteners[0].createdAt);
     expect(shortenerList[0].createdAt).toStrictEqual(shorteners[0].createdAt);
     expect(shortenerList[1].createdAt).toStrictEqual(shorteners[1].createdAt);
     expect(shortenerList[2].createdAt).toStrictEqual(shorteners[2].createdAt);
