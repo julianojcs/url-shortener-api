@@ -1,10 +1,11 @@
+import { faker } from '@faker-js/faker';
 import { Shortener } from '../domain/shortener.entity';
 import { dataSourceInMemory as dataSource } from '../infra/db/typeorm/dataSource';
 import { ShortenerInMemoryRepository } from '../infra/db/in-memory/shortener-in-memory.repository';
 import { ShortenerTypeOrmRepository } from '../infra/db/typeorm/shortener-typeorm.repository';
 import { CreateShortenerUseCase } from './create-shortener.use-case';
 
-const url: string = 'https://www.google.com';
+const url = faker.internet.url();
 
 describe('CreateShortenerUseCase Tests', () => {
   it('should create a new shortener and persisting it in memory.', async () => {

@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { ShortenerInMemoryRepository } from '../infra/db/in-memory/shortener-in-memory.repository';
 import { CreateShortenerUseCase } from './create-shortener.use-case';
 import { ListAllShortURLsUseCase } from './list-all-shorturls.use-case';
@@ -8,11 +9,11 @@ const createShortenerUseCase = new CreateShortenerUseCase(repository);
 
 describe('ListAllShortURLsUseCase Tests', () => {
   it('should list all shortURLs', async () => {
+    const urlList: string[] = [];
     const shorteners: ShortenerInterface[] = [];
     for (let i = 0; i < 3; i++) {
-      const result = await createShortenerUseCase.execute(
-        `https://www.google.com/rota${i + 1}`,
-      );
+      urlList.push(faker.internet.url());
+      const result = await createShortenerUseCase.execute(urlList[i]);
       shorteners.push(result);
     }
     const listAllShortURLsUseCase = new ListAllShortURLsUseCase(repository);

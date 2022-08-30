@@ -1,4 +1,5 @@
-import { ShortenerInMemoryRepository } from "../infra/db/in-memory/shortener-in-memory.repository";
+import { faker } from '@faker-js/faker';
+import { ShortenerInMemoryRepository } from '../infra/db/in-memory/shortener-in-memory.repository';
 import { CreateShortenerUseCase } from './create-shortener.use-case';
 import { ListAllShortenersUseCase } from './list-all-shorteners.use-case';
 import { ShortenerInterface } from '../domain/shortener.entity';
@@ -8,11 +9,11 @@ const createShortenerUseCase = new CreateShortenerUseCase(repository);
 
 describe('ListAllShortenersUseCase Tests', () => {
   it('should list all shorteners', async () => {
+    const urlList: string[] = [];
     const shorteners: ShortenerInterface[] = [];
     for (let i = 0; i < 3; i++) {
-      const result = await createShortenerUseCase.execute(
-        `https://www.google.com/rota${i + 1}`,
-      );
+      urlList.push(faker.internet.url());
+      const result = await createShortenerUseCase.execute(urlList[i]);
       shorteners.push(result);
     }
     const listAllShortenersUseCase = new ListAllShortenersUseCase(repository);
@@ -21,7 +22,7 @@ describe('ListAllShortenersUseCase Tests', () => {
     shortenersList.then((list) => expect(list).toHaveLength(shorteners.length));
     shortenersList.then((list) =>
       list.forEach((shortener, index) => {
-        expect(shortener.url).toBe(`https://www.google.com/rota${index + 1}`);
+        expect(shortener.url).toBe(urlList[index]);
       }),
     );
     shortenersList.then((list) =>
