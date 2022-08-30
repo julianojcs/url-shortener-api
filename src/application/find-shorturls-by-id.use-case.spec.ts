@@ -8,7 +8,7 @@ import { FindShortURLByIdUseCase } from './find-shorturls-by-id.use-case';
 
 const url = faker.internet.url();
 
-describe('ListAllShortURLsUseCase Tests', () => {
+describe('FindShortURLByIdUseCase Tests', () => {
   it('should find a shortURL by id, using in-memory repository', async () => {
     const repository = new ShortenerInMemoryRepository();
     const createShortenerUseCase = new CreateShortenerUseCase(repository);
