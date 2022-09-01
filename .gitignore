@@ -260,6 +260,6 @@ dist
 .pnp.*
 
 .sqlite
-src/database.sqlite
+# src/database.sqlite
 
 teste
