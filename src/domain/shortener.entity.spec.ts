@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker';
-import { Shortener } from './shortener.entity';
+import { Shortener, urlProps } from './shortener.entity';
 
-const url = faker.internet.url();
+const url: urlProps = {
+  url: faker.internet.url()
+};
 
 describe('Create ShortURL Tests', () => {
   test('constructor whit props', () => {
@@ -11,16 +13,9 @@ describe('Create ShortURL Tests', () => {
     expect(shortener).toHaveProperty('shortURL');
     expect(shortener).toHaveProperty('createdAt');
   });
-  test('constructor whitout props', () => {
-    const shortener = Shortener.create();
-    expect(shortener.id).toBeUndefined();
-    expect(shortener.createdAt).toBeUndefined();
-    expect(shortener.url).toBeUndefined();
-    expect(shortener.shortURL).toBeUndefined();
-  });
 });
 
-describe('Patient toJSON Tests', () => {
+describe('Shortener toJSON Tests', () => {
   let shortener = Shortener.create(url);
   test('toJSON method', () => {
     const json = shortener.toJSON();
@@ -28,7 +23,7 @@ describe('Patient toJSON Tests', () => {
       id: shortener.id,
       url: shortener.url,
       shortURL: shortener.shortURL,
-      createdAt: shortener.createdAt,
+      createdAt: shortener.createdAt
     });
   });
 });

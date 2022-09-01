@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test2": "jest",
-    "express": "set NODE_ENV=dev && ts-node src/index.ts",
+    "express": "set NODE_ENV=dev && ts-node src/infra/http/express/index.ts",
     "start": "set NODE_ENV=production && ts-node src/infra/http/express/index.ts",
     "dev": "set NODE_ENV=dev && nodemon src/infra/http/express/index.ts --ignore tests",
     "test": "set NODE_ENV=dev && jest --detectOpenHandles --forceExit"

@@ -1,11 +1,13 @@
 import { faker } from '@faker-js/faker';
-import { Shortener } from '../domain/shortener.entity';
-import { dataSourceInMemory as dataSource } from '../infra/db/typeorm/dataSource';
+import { Shortener, urlProps } from '../domain/shortener.entity';
+import { dataSource } from '../infra/db/typeorm/dataSource';
 import { ShortenerInMemoryRepository } from '../infra/db/in-memory/shortener-in-memory.repository';
 import { ShortenerTypeOrmRepository } from '../infra/db/typeorm/shortener-typeorm.repository';
 import { CreateShortURLUseCase } from './create-shorturl.use-case';
 
-const url = faker.internet.url();
+const url: urlProps = {
+  url: faker.internet.url()
+};
 
 describe('CreateShortURLUseCase Tests', () => {
   it('should create a new shortURL and persisting it in memory.', async () => {

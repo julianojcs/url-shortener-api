@@ -7,13 +7,25 @@ export type ShortenerInterface = {
   createdAt: Date
 }
 
-export class Shortener {
-  public props: Required<ShortenerInterface>
+export type urlProps = {
+  url: string;
+};
 
-  private constructor(url?: string) {
+export type dateProps = {
+  date: Date;
+};
+
+export type shortURLProps = {
+  shortURL: string;
+};
+
+export class Shortener {
+  public props: Required<ShortenerInterface>;
+
+  private constructor(url: string) {
     if (!url) {
       //@ts-expect-error used for ORM
-      this.props = {}
+      this.props = {};
       return;
     }
     const today = new Date().toLocaleDateString('en-US');
@@ -21,44 +33,40 @@ export class Shortener {
       id: crypto.randomUUID(),
       url: url,
       shortURL: this.createShortURL(),
-      createdAt: new Date(today),
+      createdAt: new Date(today)
     };
   }
 
-  static create(url?: string): Shortener {
-    return new Shortener(url);
+  static create(props: urlProps): Shortener {
+    return new Shortener(props.url);
   }
 
   get id() {
     return this.props.id;
   }
   private set id(value: string) {
-    if (!this.props.id)
-      this.props.id = value;
+    if (!this.props.id) this.props.id = value;
   }
 
   get url() {
     return this.props.url;
   }
   private set url(value: string) {
-    if (!this.props.url)
-      this.props.url = value;
+    if (!this.props.url) this.props.url = value;
   }
 
   get shortURL() {
     return this.props.shortURL;
   }
   private set shortURL(value: string) {
-    if (!this.props.shortURL)
-      this.props.shortURL = value;
+    if (!this.props.shortURL) this.props.shortURL = value;
   }
 
   get createdAt() {
     return this.props.createdAt;
   }
   private set createdAt(value: Date) {
-    if (!this.props.createdAt)
-      this.props.createdAt = value;
+    if (!this.props.createdAt) this.props.createdAt = value;
   }
 
   createShortURL() {

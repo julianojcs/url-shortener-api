@@ -1,11 +1,10 @@
 import { faker } from '@faker-js/faker';
-// import { dataSourceInMemory as dataSource } from './dataSource';
-import { dataSourceInMemory as dataSource } from './dataSource';
-import { Shortener } from '../../../domain/shortener.entity';
+import { dataSource } from './dataSource';
+import { Shortener, urlProps } from '../../../domain/shortener.entity';
 import { ShortenerTypeOrmRepository } from './shortener-typeorm.repository';
 import crypto from 'crypto';
 
-const urlList: string[] = [];
+const urlList: urlProps[] = [];
 const shorteners: Shortener[] = [];
 const ormRepo = dataSource.getRepository(Shortener);
 const repository = new ShortenerTypeOrmRepository(ormRepo);
@@ -13,7 +12,9 @@ const repository = new ShortenerTypeOrmRepository(ormRepo);
 beforeAll(async () => {
   await dataSource.initialize();
   for (let i = 0; i < 3; i++) {
-    urlList.push(faker.internet.url());
+    urlList.push({
+      url: faker.internet.url()
+    });
     const shortener = Shortener.create(urlList[i]);
     await repository.insert(shortener);
     shorteners.push(shortener);
@@ -31,43 +32,41 @@ describe('ShortenerTypeOrmRepository Tests', () => {
     expect(shortenerFound).toStrictEqual(shorteners[0]);
   });
   it('should find URL by shortURL', async () => {
-    const theURL = await repository.findURL(shorteners[1].shortURL);
-    expect(theURL).toBe(urlList[1]);
+    const shortURL = {
+      shortURL: shorteners[1].shortURL
+    };
+    const theURL = await repository.findURL(shortURL);
+    expect(theURL!.url).toBe(urlList[1].url);
   });
   it('should not find URL by shortURL', async () => {
-    let shortURL = `${process.env.URL}${Math.random()
+    const newShortURL = `${process.env.URL}${Math.random()
       .toString(36)
       .substring(5)}`;
+    const shortURL = { shortURL: newShortURL };
     const theURL = await repository.findURL(shortURL);
     expect(theURL).toBeNull();
   });
   it('should find ShortURL by findShortURLById', async () => {
-    const shortURL = await repository.findShortURLById(shorteners[0].id);
-    expect(shorteners[0].shortURL).toBe(shortURL);
+    const shortener = await repository.findShortURLById(shorteners[0].id);
+    expect(shorteners[0].shortURL).toBe(shortener!.shortURL);
   });
   it('should not find ShortURL by findShortURLById', async () => {
     const shortURL = await repository.findShortURLById(crypto.randomUUID());
     expect(shortURL).toBeNull();
   });
   it('should findAllByDate shorteners', async () => {
-    const date = new Date();
-    const shortenerList = await repository.findAllByDate(date);
-    expect(shortenerList).toHaveLength(3);
-    expect(shortenerList).toHaveLength(shorteners.length);
-    expect(shortenerList).toHaveLength(shortenerList.length);
-    expect(shortenerList[0].createdAt).toStrictEqual(shorteners[0].createdAt);
-    expect(shortenerList[1].createdAt).toStrictEqual(shorteners[1].createdAt);
-    expect(shortenerList[2].createdAt).toStrictEqual(shorteners[2].createdAt);
-    expect(shortenerList[2].url).toStrictEqual(urlList[2]);
+    const dateParam = {
+      date: new Date(new Date().toLocaleDateString('en-US'))
+    };
+    const shortenerList = await repository.findAllByDate(dateParam);
+    shortenerList.forEach((shortener) => {
+      expect(shortener.createdAt).toStrictEqual(dateParam.date);
+    });
   });
   it('should find all shorteners', async () => {
     const shortenerList = await repository.findAll();
-
-    expect(shortenerList).toHaveLength(3);
-    expect(shortenerList).toHaveLength(shorteners.length);
-    expect(shortenerList).toHaveLength(shortenerList.length);
-    expect(shortenerList[0]).toStrictEqual(shorteners[0]);
-    expect(shortenerList[1]).toStrictEqual(shortenerList[1]);
-    expect(shortenerList[2].url).toBe(urlList[2]);
+    shortenerList.forEach((shortener) => {
+      expect(shortener).toBeInstanceOf(Shortener);
+    });
   });
 });

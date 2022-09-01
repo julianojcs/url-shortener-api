@@ -1,5 +1,9 @@
-import { Shortener } from "../../../domain/shortener.entity";
-import { Repository, Raw } from "typeorm";
+import {
+  Shortener,
+  dateProps,
+  shortURLProps
+} from '../../../domain/shortener.entity';
+import { Repository, Raw } from 'typeorm';
 import { ShortenerRepositoryInterface } from '../../../domain/shortener.repository';
 
 export class ShortenerTypeOrmRepository
@@ -7,44 +11,50 @@ export class ShortenerTypeOrmRepository
 {
   constructor(private ormRepo: Repository<Shortener>) {}
 
-  async findShortURLById(id: string): Promise<string | null> {
+  async findShortURLById(id: string): Promise<Shortener | null> {
     const result = await this.ormRepo.find({
       select: {
+        id: true,
+        url: true,
         shortURL: true,
+        createdAt: true
       },
       where: {
-        id: id,
-      },
+        id: id
+      }
     });
-    if (result.length === 0) {
+    if (!result.length) {
       return null;
-    } else {
-      return result[0].shortURL;
     }
+    return result[0];
   }
 
-  async findAllByDate(date: Date): Promise<Shortener[]> {
+  async findAllByDate(props: dateProps): Promise<Shortener[]> {
+    const { date } = props;
     const dateArg = new Date(new Date(date).toLocaleDateString('en-US'));
     const result = await this.ormRepo.findBy({
-      createdAt: Raw((createdAt) => `${createdAt} == :date`, { date: dateArg }),
+      createdAt: Raw((createdAt) => `${createdAt} == :date`, { date: dateArg })
     });
     return result;
   }
 
-  async findURL(shortURL: string): Promise<string | null> {
+  async findURL(props: shortURLProps): Promise<Shortener | null> {
+    const { shortURL } = props;
     const result = await this.ormRepo.find({
       select: {
+        id: true,
         url: true,
+        shortURL: true,
+        createdAt: true
       },
       where: {
-        shortURL: shortURL,
-      },
+        shortURL: shortURL
+      }
     });
-    if (result.length === 0) {
+    if (!result.length) {
       return null;
-    } else {
-      return result[0].url;
     }
+    return result[0];
   }
 
   async insert(shortener: Shortener): Promise<void> {

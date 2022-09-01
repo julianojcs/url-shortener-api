@@ -1,40 +1,35 @@
+###
 GET http://localhost:3000/
 
 ###
-GET http://localhost:3000/patients
+GET http://localhost:3000/shorturls
 
 ###
-GET http://localhost:3000/users
+GET http://localhost:3000/shortener
 
 ###
-GET http://localhost:3000/routes
+GET http://localhost:3000/shortener/5ffe8b7d-d494-49e4-ad47-5acd031701d9
 
 ###
-POST http://localhost:3000/route
+POST http://localhost:3000/url
 Content-Type: application/json
 
 {
-  "title": "Quarta Rota", 
-  "startPosition": { "lat": -23.7729, "lng": -46.4543 },
-  "endPosition": { "lat": -23.7669, "lng": -46.4776 }
+  "shortURL": "http://localhost:3000/rmnbyyxf"
 }
 
 ###
-POST http://localhost:3000/user
+POST http://localhost:3000/shortener/date
 Content-Type: application/json
 
 {
-  "name": "juliano costa",
-  "email": "juliano@gmail.com",
-  "phone": "27981330708"
+  "date": "2022-09-01T03:00:00.000Z"
 }
 
 ###
-POST http://localhost:3000/patient
+POST http://localhost:3000/shortener
 Content-Type: application/json
 
 {
-  "name": "ryani antonio",
-  "email": "ryani@gmail.com",
-  "phone": "(27)99994-6541"
+  "url": "https://web.whatsapp.com/"
 }

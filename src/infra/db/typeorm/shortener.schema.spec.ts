@@ -1,8 +1,5 @@
-// import { dataSourceInMemory as dataSource } from './dataSource';
 import { dataSource } from './dataSource';
-import { Shortener } from '../../../domain/shortener.entity'
-
-const url: string = "https://www.google.com";
+import { Shortener, urlProps } from '../../../domain/shortener.entity';
 
 beforeEach(async () => {
   await dataSource.initialize();
@@ -13,14 +10,18 @@ afterEach(async () => {
 
 describe('ShortenerSchema Tests', () => {
   test('should create a new shortener', async () => {
+    const url: urlProps = {
+      url: 'https://www.google.com'
+    };
     const shortener = Shortener.create(url);
-    const shortenerRepo = dataSource.getRepository(Shortener)
-    await shortenerRepo.save(shortener)
+    const shortenerRepo = dataSource.getRepository(Shortener);
+    await shortenerRepo.save(shortener);
+    const shortenerFound = await shortenerRepo.findOneBy({ id: shortener.id });
 
-    expect(shortener.id).toBeDefined();
-    expect(shortener.url).toBe(url);
-    expect(shortener.shortURL).toBeDefined();
-    expect(shortener.createdAt).toBeDefined();
-    expect(await shortenerRepo.findOneBy({ id: shortener.id })).toStrictEqual(shortener);
-  })
+    expect(shortener).toHaveProperty('id');
+    expect(shortener).toHaveProperty('url');
+    expect(shortener).toHaveProperty('shortURL');
+    expect(shortener).toHaveProperty('createdAt');
+    expect(shortenerFound).toStrictEqual(shortener);
+  });
 });
