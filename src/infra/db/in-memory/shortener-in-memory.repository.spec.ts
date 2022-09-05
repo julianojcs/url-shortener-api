@@ -43,7 +43,7 @@ describe('ShortenerInMemory Repository Tests', () => {
     expect(repository.items[0].url).toBe(shortener!.url);
   });
   it('should not find URL by shortURL', async () => {
-    let shortURL = `${process.env.URL}${Math.random()
+    let shortURL = `${process.env.BASEURL}${Math.random()
       .toString(36)
       .substring(5)}`;
     const shortURLProp = { shortURL };

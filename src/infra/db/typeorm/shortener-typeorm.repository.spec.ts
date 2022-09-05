@@ -39,7 +39,7 @@ describe('ShortenerTypeOrmRepository Tests', () => {
     expect(theURL!.url).toBe(urlList[1].url);
   });
   it('should not find URL by shortURL', async () => {
-    const newShortURL = `${process.env.URL}${Math.random()
+    const newShortURL = `${process.env.BASEURL}${Math.random()
       .toString(36)
       .substring(5)}`;
     const shortURL = { shortURL: newShortURL };

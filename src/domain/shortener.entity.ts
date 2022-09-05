@@ -74,7 +74,7 @@ export class Shortener {
   }
 
   createShortURL() {
-    return `${process.env.URL}${Math.random().toString(36).substring(5)}`;
+    return `${process.env.BASEURL}${Math.random().toString(36).substring(5)}`;
   }
 
   toJSON() {

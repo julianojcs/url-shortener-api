@@ -3,7 +3,7 @@ import nock from 'nock';
 import { ShortenerInterface } from '@/domain/shortener.entity';
 import { createShortener, getShorteners } from '../service/shortener.service';
 
-const httpHost = process.env.URL || 'http://localhost:3000/';
+const httpHost = process.env.BASEURL || 'http://localhost:3000/';
 axios.defaults.baseURL = httpHost;
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -41,7 +41,7 @@ describe('Test the API Http methods', () => {
 //     mockDataList.push({
 //       id: `00000000-0000-0000-0000-00000000000${i}`,
 //       url: `https://www.mymockurl.com/rota${i}`,
-//       shortURL: `${process.env.URL}0000000${i}`,
+//       shortURL: `${process.env.BASEURL}0000000${i}`,
 //       createdAt: `2022-0${i + 1}-01T03:00:00.000Z`
 //     });
 //   }

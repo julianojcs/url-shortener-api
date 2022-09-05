@@ -10,7 +10,7 @@ const url: urlProps = {
   url: faker.internet.url()
 };
 const shortURL = {
-  shortURL: `${process.env.URL}${Math.random().toString(36).substring(5)}`
+  shortURL: `${process.env.BASEURL}${Math.random().toString(36).substring(5)}`
 };
 
 describe('FindURLUseCase Tests', () => {

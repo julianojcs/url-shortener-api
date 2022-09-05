@@ -1,7 +1,7 @@
 # url-shortener-api
 An API developing with NodeJs, ExpressJS, TypeScript, Jest, TypeORM and SQLite to short url and persist the data into the SQLite database.
 
-To run the API, check the scripts available in the package.json file (run the npm run express script)
+To run the API, check the scripts available in the package.json file (run the **npm run express** script)
 
 ### Developed by:
 - **Name**: Juliano Costa Silva

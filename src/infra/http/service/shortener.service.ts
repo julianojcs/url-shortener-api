@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ShortenerInterface } from '../../../domain/shortener.entity';
-const httpHost = process.env.URL || 'http://localhost:3000/';
+const httpHost = process.env.BASEURL || 'http://localhost:3000/';
 
 const createShortener = async (
   props: string
