@@ -8,14 +8,14 @@ GET http://localhost:3000/shorturls
 GET http://localhost:3000/shortener
 
 ###
-GET http://localhost:3000/shortener/5ffe8b7d-d494-49e4-ad47-5acd031701d9
+GET http://localhost:3000/shortener/507a129b-58d9-49a6-beef-6da8858a16d6
 
 ###
 POST http://localhost:3000/url
 Content-Type: application/json
 
 {
-  "shortURL": "http://localhost:3000/rmnbyyxf"
+  "shortURL": "http://localhost:3000/sl5mfaqs"
 }
 
 ###
@@ -23,7 +23,7 @@ POST http://localhost:3000/shortener/date
 Content-Type: application/json
 
 {
-  "date": "2022-09-01T03:00:00.000Z"
+  "date": "2022-09-05T03:00:00.000Z"
 }
 
 ###
