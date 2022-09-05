@@ -36,11 +36,8 @@
     "jest": "^28.1.1",
     "jsdoc": "^3.6.11",
     "nock": "^13.2.9",
-    "swagger-ui-express": "^4.5.0",
     "ts-jest": "^28.0.8",
-    "ts-node": "^10.8.1",
-    "typescript": "^4.7.3",
-    "yamljs": "^0.3.0"
+    "ts-node": "^10.8.1"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -50,6 +47,9 @@
     "express": "^4.18.1",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.8",
-    "typeorm": "^0.3.7"
+    "swagger-ui-express": "^4.5.0",
+    "typeorm": "^0.3.7",
+    "typescript": "^4.8.2",
+    "yamljs": "^0.3.0"
   }
 }
