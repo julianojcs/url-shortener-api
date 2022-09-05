@@ -263,3 +263,5 @@ dist
 # src/database.sqlite
 
 teste
+api-docs
+out

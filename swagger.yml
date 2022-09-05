@@ -1,0 +1,268 @@
+openapi: 3.0.1
+info:
+  title: Shortener API
+  description: An API developing with NodeJs, ExpressJS, TypeScript, Jest, TypeORM and SQLite to short url and persist the data into the SQLite database.
+  version: 0.0.1
+tags:
+  - name: enshort
+    description: Enshort a url
+  - name: search
+    description: Shortener search engine
+components:
+  schemas:
+    Shortener:
+      properties:
+        id:
+          # Returned by GET, not used in POST/PUT/PATCH
+          type: string
+          nullable: false
+          unique: true
+          format: uuid
+          description: unique id
+          example: 4a2aff06-1dfd-4e90-aca6-9b4e8206e785
+        url:
+          type: string
+          nullable: false
+          description: original url
+          example: https://github.com/
+        shortURL:
+          type: string
+          nullable: false
+          description: shortened URL
+          example: http://localhost:3000/9bgtmwqq
+        createdAt:
+          type: string
+          nullable: false
+          description: created date (only record MM/dd/yyyy)
+          example: 2022-09-05T03:00:00.000Z
+      required:
+        - id
+        - url
+        - shortURL
+        - createdAt
+paths:
+  /shortener:
+    post:
+      tags:
+        - enshort
+      summary: Create a shortener for a URL.
+      description: Also persist the data into the SQLite database
+      requestBody:
+        description:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: original url
+                  example: https://web.whatsapp.com/
+      responses:
+        201:    # status code
+          description: A JSON Object of shortener entity was created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shortener'
+  /shortener:
+    get:
+      tags:
+        - search
+      summary: Search for all short URL
+      description: Get a short URL
+      responses:
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+        404:
+          description: No shortened URL with the specified Date was found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+        200:
+          description: A list of short URL was found.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shortener'
+  /shortener/{date}:
+    get:
+      tags:
+        - search
+      summary: Search for a short URL by date
+      description: Get a short URL that matches a given date (considering only the MM/dd/yyyy)
+      parameters:
+        - name: date
+          in: path
+          description: shortener id
+          required: true
+          schema:
+            type: string
+            description: shortener date
+            example: 2022-09-05T03:00:00.000Z
+      responses:
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+        404:
+          description: No shortened URL with the specified Date was found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+        200:
+          description: A list of short URL was found.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shortener'
+  /shortener/{id}:
+    get:
+      tags:
+        - search
+      summary: Search for a short URL by id
+      parameters:
+        - name: id
+          in: path
+          description: shortener id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            description: unique id
+            example: 4a2aff06-1dfd-4e90-aca6-9b4e8206e785
+      responses:
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+        404:
+          description: A shortened with the specified ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+        200:
+          description: A short URL was found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shortener'
+  /{shorturl}:
+    get:
+      tags:
+        - search
+      summary: Redirect to the original URL
+      description: The short URL is sent to the server by POST and the navigation is redirected to the original URL.
+      parameters:
+        - name: shorturl
+          in: path
+          description: the short URL to redirect to the original URL
+          required: true
+          schema:
+            type: string
+            description: the pos-fixed shorturl string to search for (8 characters)
+            example: sl5mfaqs
+      responses:
+        301:    # status code
+          description: This response redirects to the original URL
+          content:
+            application/json:
+              schema:
+                type: string
+                nullable: false
+                description: redirect to original url
+        400:
+          description: Bad Request.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+        404:
+          description: A shortened with the specified ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message
+  /url:
+    post:
+      tags:
+        - enshort
+      summary: Get a shortener for a shortURL
+      description: The short URL is sent to the server by POST and a shortener object is returned
+      requestBody:
+        description: An object containing the short URL parameter
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shortURL:
+                  type: string
+                  description: short url
+                  example: http://localhost:3000/sl5mfaqs
+      responses:
+        201:    # status code
+          description: A JSON Object of shortener entity that matches the shortURL parameter was found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shortener'
+        404:
+          description: A shortened with the specified shortURL was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: error message

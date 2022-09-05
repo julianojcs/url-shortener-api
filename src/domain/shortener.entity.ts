@@ -18,7 +18,11 @@ export type dateProps = {
 export type shortURLProps = {
   shortURL: string;
 };
-
+/**
+ * Shortener entity
+ * @constructor
+ * @param {string} url - The url to be shortened.
+ */
 export class Shortener {
   public props: Required<ShortenerInterface>;
 

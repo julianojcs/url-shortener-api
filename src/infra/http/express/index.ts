@@ -13,6 +13,10 @@ import { ShortenerTypeOrmRepository } from '../../db/typeorm/shortener-typeorm.r
 import { dataSource } from '../../db/typeorm/dataSource';
 import { Shortener } from '../../../domain/shortener.entity';
 
+import swaggerUI from 'swagger-ui-express';
+import YAML from 'yamljs';
+const spec = YAML.load('./swagger.yml');
+
 const app: Express = express();
 app.use(express.json());
 app.use(cors());
@@ -54,9 +58,9 @@ app.get('/shortener', async (_: Request, res: Response) => {
   );
   const result = await listAllShortenersUseCase.execute();
   if (!result) {
-    res.status(404).json({ message: 'Failed to load resource' });
+    res.status(400).json({ message: 'Bad Request' });
   } else if (!result.length) {
-    res.status(204).json({ message: 'Not Found' });
+    res.status(404).json({ message: 'Not Found' });
   } else {
     res.status(200).json(result);
   }
@@ -72,7 +76,7 @@ app.get('/shortener/:id', async (req: Request, res: Response) => {
   );
   const result = await findShortURLByIdUseCase.execute(id);
   if (result === null) {
-    res.status(204).json({ message: 'Not Found' });
+    res.status(404).json({ message: 'Not Found' });
   } else {
     res.status(200).json(result);
   }
@@ -83,9 +87,9 @@ app.post('/shortener/date', async (req: Request, res: Response) => {
     new useCase.FindAllShortURLsByDateUseCase(shortenerRepo);
   const result = await findAllShortURLsByDateUseCase.execute(req.body);
   if (!result) {
-    res.status(404).json({ message: 'Failed to load resource' });
+    res.status(400).json({ message: 'Bad Request' });
   } else if (!result.length) {
-    res.status(204).json({ message: 'Not Found' });
+    res.status(404).json({ message: 'Not Found' });
   } else {
     res.status(201).json(result);
   }
@@ -95,7 +99,7 @@ app.post('/url', async (req: Request, res: Response) => {
   const findURLUseCase = new useCase.FindURLUseCase(shortenerRepo);
   const result = await findURLUseCase.execute(req.body);
   if (!result) {
-    res.status(204).json({ message: 'Not Found' });
+    res.status(404).json({ message: 'Not Found' });
   } else {
     res.status(201).json(result);
   }
@@ -113,7 +117,7 @@ app.get('/:shorturl', async (req: Request, res: Response) => {
 
   const result = await findURLUseCase.execute(shortURLObj);
   if (!result) {
-    res.status(204).json({ message: 'Not Found' });
+    res.status(404).json({ message: 'Not Found' });
   } else {
     res.redirect(301, result.url);
   }
@@ -130,3 +134,5 @@ app.post('/shortener', async (req: Request, res: Response) => {
 export const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+app.use('/', swaggerUI.serve, swaggerUI.setup(spec));
