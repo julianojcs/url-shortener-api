@@ -6,12 +6,15 @@
   "scripts": {
     "test2": "jest",
     "express": "set NODE_ENV=dev && ts-node src/infra/http/express/index.ts",
-    "start": "node build/src/infra/http/express/index.js",
+    "start": "node src/infra/http/express/index.js",
     "start2": "set NODE_ENV=production && ts-node src/infra/http/express/index.ts",
     "dev": "set NODE_ENV=dev && nodemon src/infra/http/express/index.ts --ignore tests",
     "test": "set NODE_ENV=dev && jest --detectOpenHandles --forceExit",
     "generate:doc": "jsdoc -r src/infra/http -c jsdoc.json -d ./out",
     "build": "tsc"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "keywords": [],
   "author": "",
