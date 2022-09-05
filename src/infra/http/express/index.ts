@@ -131,7 +131,7 @@ app.post('/shortener', async (req: Request, res: Response) => {
   res.status(201).json(response);
 });
 
-export const server = app.listen(port, () => {
+export const server = app.listen(port || 3000, () => {
   console.log(`Server running on port ${port}`);
 });
 
