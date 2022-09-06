@@ -112,7 +112,7 @@ app.get('/:shorturl', async (req: Request, res: Response) => {
   }
   const findURLUseCase = new useCase.FindURLUseCase(shortenerRepo);
   const shortURLObj = {
-    shortURL: `${req.protocol}://${req.get('Host')}/${shorturl}`
+    shortURL: `${process.env.BASEURL}${shorturl}`
   };
 
   const result = await findURLUseCase.execute(shortURLObj);
