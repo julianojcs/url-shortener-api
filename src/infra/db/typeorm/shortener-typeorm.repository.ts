@@ -49,6 +49,9 @@ export class ShortenerTypeOrmRepository
       },
       where: {
         shortURL: shortURL
+      },
+      order: {
+        createdAt: 'DESC'
       }
     });
     if (!result.length) {
@@ -62,6 +65,10 @@ export class ShortenerTypeOrmRepository
   }
 
   async findAll(): Promise<Shortener[]> {
-    return this.ormRepo.find();
+    return this.ormRepo.find({
+      order: {
+        createdAt: 'DESC'
+      }
+    });
   }
 }
