@@ -36,8 +36,10 @@ const port = process.env.PORT || 3000;
 const shortenerOrmRepo = dataSource.getRepository(Shortener);
 const shortenerRepo = new ShortenerTypeOrmRepository(shortenerOrmRepo);
 
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(spec));
+
 app.get('/', async (_: Request, res: Response) => {
-  res.status(200).json({ message: 'Weelcome to URL Shortener!' });
+  res.redirect(301, '/docs');
 });
 
 app.get('/shorturls', async (_: Request, res: Response) => {
@@ -134,5 +136,3 @@ app.post('/shortener', async (req: Request, res: Response) => {
 export const server = app.listen(port || 3000, () => {
   console.log(`Server running on port ${port}`);
 });
-
-app.use('/', swaggerUI.serve, swaggerUI.setup(spec));
