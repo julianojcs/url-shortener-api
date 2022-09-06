@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   title: Shortener API
   description: An API developing with NodeJs, ExpressJS, TypeScript, Jest, TypeORM and SQLite to short url and persist the data into the SQLite database.
@@ -8,6 +8,9 @@ tags:
     description: Enshort a url
   - name: search
     description: Shortener search engine
+servers:
+  - url: https://jcs-url-shortener.herokuapp.com
+    description: Production server (uses live data)
 components:
   schemas:
     Shortener:
@@ -16,7 +19,6 @@ components:
           # Returned by GET, not used in POST/PUT/PATCH
           type: string
           nullable: false
-          unique: true
           format: uuid
           description: unique id
           example: 4a2aff06-1dfd-4e90-aca6-9b4e8206e785
@@ -29,7 +31,7 @@ components:
           type: string
           nullable: false
           description: shortened URL
-          example: http://localhost:3000/9bgtmwqq
+          example: https://jcs-url-shortener.herokuapp.com/9bgtmwqq
         createdAt:
           type: string
           nullable: false
@@ -48,7 +50,7 @@ paths:
       summary: Create a shortener for a URL.
       description: Also persist the data into the SQLite database
       requestBody:
-        description:
+        description: An object representing the original URL to be shortened.
         required: true
         content:
           application/json:
@@ -58,7 +60,7 @@ paths:
                 url:
                   type: string
                   description: original url
-                  example: https://web.whatsapp.com/
+                  example: https://www.google.com/
       responses:
         201:    # status code
           description: A JSON Object of shortener entity was created successfully
@@ -66,7 +68,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Shortener'
-  /shortener:
     get:
       tags:
         - search
@@ -248,7 +249,7 @@ paths:
                 shortURL:
                   type: string
                   description: short url
-                  example: http://localhost:3000/sl5mfaqs
+                  example: https://jcs-url-shortener.herokuapp.com/sl5mfaqs
       responses:
         201:    # status code
           description: A JSON Object of shortener entity that matches the shortURL parameter was found
